@@ -4,7 +4,7 @@ using MyShop.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    opt.UseSqlite("Data Source=MyShop.db"));
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(opt => opt.IdleTimeout = TimeSpan.FromMinutes(30));
 
