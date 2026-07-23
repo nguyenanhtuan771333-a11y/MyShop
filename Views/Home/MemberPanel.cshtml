@@ -1,0 +1,544 @@
+﻿@{
+    ViewData["Title"] = "Trang Member";
+    Layout = null;
+    var orders = ViewBag.Orders as List<MyShop.Models.Order>;
+    var user = ViewBag.User as MyShop.Models.User;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Member Panel</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0b1a3a, #1a3a6a);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .snowflake {
+            position: fixed;
+            color: #fff;
+            font-size: 1em;
+            top: -10px;
+            z-index: 9999;
+            animation: fall linear infinite;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        @@keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0.2;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+            .header h2 {
+                margin: 0;
+                color: #ffd700;
+                text-shadow: 0 0 20px rgba(255,215,0,0.3);
+            }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-logout {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+            .btn-logout:hover {
+                background: rgba(255,0,0,0.3);
+            }
+
+        .panel {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+            .panel h3 {
+                color: #ffd700;
+                margin-top: 0;
+                border-bottom: 1px solid rgba(255,215,0,0.2);
+                padding-bottom: 10px;
+            }
+
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .price-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+
+            .price-item:hover {
+                background: rgba(255,215,0,0.1);
+                border-color: #ffd700;
+            }
+
+            .price-item .amount {
+                font-size: 1.3em;
+                font-weight: bold;
+                color: #ffd700;
+            }
+
+            .price-item .diamond {
+                color: #aaa;
+                font-size: 0.9em;
+            }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                color: #ccc;
+            }
+
+            .form-group input, .form-group select {
+                width: 100%;
+                max-width: 400px;
+                padding: 10px 15px;
+                border-radius: 10px;
+                border: 1px solid rgba(255,255,255,0.2);
+                background: rgba(255,255,255,0.05);
+                color: white;
+                font-size: 1em;
+                transition: 0.3s;
+            }
+
+                .form-group input:focus, .form-group select:focus {
+                    outline: none;
+                    border-color: #ffd700;
+                    box-shadow: 0 0 20px rgba(255,215,0,0.15);
+                }
+
+                .form-group select option {
+                    background: #0b1a3a;
+                }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #00b894, #00a3ff);
+            border: none;
+            color: white;
+            padding: 12px 35px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .btn-submit:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 20px rgba(0,184,148,0.4);
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            color: #ffd700;
+            font-weight: normal;
+        }
+
+        .status-success {
+            color: #00d2ff;
+        }
+
+        .status-fail {
+            color: #ff6b6b;
+        }
+
+        .status-pending {
+            color: #ffd93d;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .modal.show {
+                display: flex;
+            }
+
+        .modal-content {
+            background: linear-gradient(145deg, #1a2a5a, #0b1a3a);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid rgba(255,215,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+
+            .modal-content img {
+                max-width: 70%;
+                max-height: 280px;
+                width: auto;
+                height: auto;
+                border-radius: 10px;
+                margin: 15px auto;
+                border: 2px solid rgba(255,215,0,0.2);
+                display: block;
+            }
+
+            .modal-content .note {
+                color: #ccc;
+                font-size: 0.95em;
+                margin: 10px 0;
+                background: rgba(0,0,0,0.3);
+                padding: 10px;
+                border-radius: 8px;
+                word-break: break-all;
+            }
+
+            .modal-content .warning {
+                color: #ff6b6b;
+                font-size: 0.9em;
+                font-weight: bold;
+                margin: 10px 0;
+                background: rgba(255,0,0,0.1);
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid #ff6b6b;
+            }
+
+        .modal-close {
+            background: #ff6b6b;
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .modal-confirm {
+            background: #00b894;
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .modal-close:hover, .modal-confirm:hover {
+                transform: scale(1.05);
+            }
+
+        .contact-link {
+            color: #ffd700;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 15px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,215,0,0.2);
+            color: white;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .music-player button {
+                background: none;
+                border: none;
+                color: #ffd700;
+                font-size: 1.5em;
+                cursor: pointer;
+            }
+    </style>
+</head>
+<body>
+
+    <script>
+        function createSnow() {
+            const snowflakes = ['❄', '❅', '❆', '✦'];
+            const container = document.body;
+            for (let i = 0; i < 50; i++) {
+                let el = document.createElement('div');
+                el.className = 'snowflake';
+                el.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.fontSize = (Math.random() * 1.2 + 0.6) + 'em';
+                el.style.animationDuration = (Math.random() * 8 + 5) + 's';
+                el.style.animationDelay = (Math.random() * 10) + 's';
+                el.style.opacity = Math.random() * 0.6 + 0.3;
+                container.appendChild(el);
+            }
+        }
+        createSnow();
+    </script>
+
+    <div id="rechargeModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color:#ffd700;">💳 NẠP TIỀN VND - MUA KIM CƯƠNG</h3>
+            <p style="color:#ccc;">Quét mã QR bên dưới để chuyển khoản</p>
+            <img src="/images/qr_code.jpg" alt="QR Code" />
+            <div class="note">
+                📝 Nội dung chuyển: <strong>@user.Username</strong> + <span id="noteAmount">0</span> VND
+            </div>
+            <div class="warning">
+                ⚠️ LƯU Ý: Khi chuyển sai số tiền hoặc sai nội dung thì sẽ mất và sẽ không hoàn lại!
+            </div>
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:15px;">
+                <button class="modal-confirm" onclick="confirmRecharge()">✅ Xác nhận đã chuyển</button>
+                <button class="modal-close" onclick="closeModal()">❌ Đóng</button>
+            </div>
+            <p style="color:#888; font-size:0.8em; margin-top:15px;">* Sau khi xác nhận, chờ admin duyệt (thường trong 24h)</p>
+        </div>
+    </div>
+
+    <div class="music-player">
+        <span>🎵 Chill</span>
+        <button onclick="toggleMusic()">⏸️</button>
+        <audio id="bgMusic" loop>
+            <source src="/music/chill.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h2>🏠 MyShop</h2>
+            <div class="header-right">
+                <a href="/Account/Logout" class="btn-logout">🚪 Đăng xuất</a>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>📊 Bảng giá kim cương</h3>
+            <div class="price-grid">
+                <div class="price-item"><div class="amount">20.000 VND</div><div class="diamond">💎 113 KC</div></div>
+                <div class="price-item"><div class="amount">50.000 VND</div><div class="diamond">💎 283 KC</div></div>
+                <div class="price-item"><div class="amount">97.000 VND</div><div class="diamond">💎 556 KC</div></div>
+                <div class="price-item"><div class="amount">193.000 VND</div><div class="diamond">💎 1.132 KC</div></div>
+                <div class="price-item"><div class="amount">485.000 VND</div><div class="diamond">💎 2.830 KC</div></div>
+                <div class="price-item"><div class="amount">48.000 VND (Tuần)</div><div class="diamond">💎 283 KC</div></div>
+                <div class="price-item"><div class="amount">215.000 VND (Tháng)</div><div class="diamond">💎 1.132 KC</div></div>
+                <div class="price-item"><div class="amount">53.000 VND (Booyah)</div><div class="diamond">💎 283 KC</div></div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>🛒 Đặt mua kim cương (kèm ID game)</h3>
+            <form id="orderForm" method="post" action="/Home/CreateOrder">
+                <div class="form-group">
+                    <label>Chọn gói kim cương:</label>
+                    <select id="diamondSelect" name="diamondAmount" onchange="updatePrice()" required>
+                        <option value="113">113 KC - 20.000 VND</option>
+                        <option value="283">283 KC - 50.000 VND</option>
+                        <option value="556">556 KC - 97.000 VND</option>
+                        <option value="1132">1.132 KC - 193.000 VND</option>
+                        <option value="2830">2.830 KC - 485.000 VND</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Giá tiền (VND) - Tự động theo gói</label>
+                    <input type="number" step="0.01" name="price" id="priceInput" readonly required />
+                </div>
+                <div class="form-group">
+                    <label>ID game</label>
+                    <input type="text" name="gameId" placeholder="Nhập ID game của bạn" required />
+                </div>
+                <button type="button" class="btn-submit" onclick="openModalFromOrder()">📦 Tạo đơn hàng</button>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h3>📜 Lịch sử đơn hàng</h3>
+            <table>
+                <tr><th>ID game</th><th>Kim cương</th><th>Giá (VND)</th><th>Trạng thái</th></tr>
+                @if (orders != null && orders.Any())
+                {
+                    foreach (var o in orders)
+                    {
+                        var statusClass = o.Status == "Thành công" ? "status-success" : (o.Status == "Thất bại" ? "status-fail" : "status-pending");
+                        <tr>
+                            <td>@o.GameId</td>
+                            <td>@o.DiamondAmount</td>
+                            <td>@o.Price</td>
+                            <td class="@statusClass">@o.Status</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="4" style="text-align:center;color:#888;">Chưa có đơn hàng nào</td></tr>
+                }
+            </table>
+        </div>
+
+        <div class="panel" style="text-align:center;">
+            <p>📞 Gặp vấn đề? Liên hệ ngay: <a href="https://zalo.me/0123456789" target="_blank" class="contact-link">Zalo</a> | <a href="mailto:support@myshop.com" class="contact-link">Email</a> | <a href="https://www.facebook.com/nguyentuan.209447" target="_blank" class="contact-link">Facebook</a></p>
+        </div>
+    </div>
+
+    <script>
+        const priceMap = {
+            113: 20000,
+            283: 50000,
+            556: 97000,
+            1132: 193000,
+            2830: 485000
+        };
+
+        function updatePrice() {
+            const select = document.getElementById('diamondSelect');
+            const price = priceMap[parseInt(select.value)] || 0;
+            document.getElementById('priceInput').value = price;
+        }
+        updatePrice();
+
+        function openModalFromOrder() {
+            const diamond = parseInt(document.getElementById('diamondSelect').value);
+            const price = parseInt(document.getElementById('priceInput').value);
+            if (!price || price <= 0) {
+                alert('Vui lòng chọn gói kim cương hợp lệ.');
+                return;
+            }
+            document.getElementById('noteAmount').textContent = price.toLocaleString();
+            document.getElementById('rechargeModal').classList.add('show');
+            document.getElementById('rechargeModal').dataset.diamond = diamond;
+            document.getElementById('rechargeModal').dataset.price = price;
+        }
+
+        function closeModal() {
+            document.getElementById('rechargeModal').classList.remove('show');
+        }
+
+        function confirmRecharge() {
+            const diamond = parseInt(document.getElementById('rechargeModal').dataset.diamond);
+            const price = parseInt(document.getElementById('rechargeModal').dataset.price);
+            if (!diamond || !price) {
+                alert('Lỗi: Không xác định được gói.');
+                return;
+            }
+            const gameId = document.querySelector('input[name="gameId"]').value;
+            if (!gameId.trim()) {
+                alert('Vui lòng nhập ID game.');
+                return;
+            }
+
+            const form = document.getElementById('orderForm');
+            const formData = new FormData(form);
+            fetch('/Home/CreateOrder', {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('✅ Đơn hàng đã gửi! Chờ admin duyệt.');
+                    location.reload();
+                } else {
+                    alert('❌ Lỗi gửi đơn hàng. Thử lại sau.');
+                }
+            })
+            .catch(() => alert('❌ Lỗi kết nối.'));
+            closeModal();
+        }
+
+        let musicPlaying = false;
+        const audio = document.getElementById('bgMusic');
+        function toggleMusic() {
+            if (musicPlaying) {
+                audio.pause();
+                document.querySelector('.music-player button').textContent = '▶️';
+            } else {
+                audio.play().catch(() => {});
+                document.querySelector('.music-player button').textContent = '⏸️';
+            }
+            musicPlaying = !musicPlaying;
+        }
+        document.addEventListener('click', function() {
+            if (!musicPlaying) {
+                audio.play().catch(() => {});
+                musicPlaying = true;
+                document.querySelector('.music-player button').textContent = '⏸️';
+            }
+        }, { once: true });
+    </script>
+
+</body>
+</html>

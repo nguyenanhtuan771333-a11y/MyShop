@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Đặt lại mật khẩu";
+}
+<h2>Đặt lại mật khẩu</h2>
+<form method="post">
+    <input type="hidden" name="token" value="@ViewBag.Token" />
+    <input type="password" name="newPassword" placeholder="Mật khẩu mới" required /><br />
+    <input type="password" name="confirm" placeholder="Xác nhận mật khẩu" required /><br />
+    <button type="submit">Đổi mật khẩu</button>
+    <div style="color:red">@ViewBag.Error</div>
+</form>

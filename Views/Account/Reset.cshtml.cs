@@ -1,0 +1,12 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace MyShop.Views.Account
+{
+    public class ResetModel : PageModel
+    {
+        public void OnGet()
+        {
+        }
+    }
+}

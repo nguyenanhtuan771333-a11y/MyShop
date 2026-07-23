@@ -1,0 +1,178 @@
+﻿@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Đăng nhập</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0b1a3a, #1a3a6a, #2a1a4a);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .login-box {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,215,0,0.3);
+            box-shadow: 0 0 80px rgba(255,215,0,0.1), 0 0 150px rgba(0,100,255,0.05);
+            width: 100%;
+            max-width: 400px;
+            animation: float 6s ease-in-out infinite, glow 3s ease-in-out infinite alternate;
+        }
+
+        @@keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @@keyframes glow {
+            0% {
+                box-shadow: 0 0 50px rgba(255,215,0,0.05), 0 0 100px rgba(0,100,255,0.02);
+            }
+
+            100% {
+                box-shadow: 0 0 80px rgba(255,215,0,0.15), 0 0 150px rgba(0,100,255,0.08);
+            }
+        }
+
+        .login-box h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 40px rgba(255,215,0,0.3);
+            font-size: 2em;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 1em;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+            .login-box input:focus {
+                outline: none;
+                border-color: #ffd700;
+                box-shadow: 0 0 30px rgba(255,215,0,0.1);
+            }
+
+        .login-box button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 15px;
+            border: none;
+            background: linear-gradient(135deg, #ffd700, #f7931e);
+            color: #0b1a3a;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .login-box button:hover {
+                transform: scale(1.02);
+                box-shadow: 0 0 40px rgba(255,215,0,0.3);
+            }
+
+        .login-box .links {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            color: #aaa;
+        }
+
+            .login-box .links a {
+                color: #ffd700;
+                text-decoration: none;
+                font-size: 0.9em;
+                transition: 0.3s;
+            }
+
+                .login-box .links a:hover {
+                    text-shadow: 0 0 20px rgba(255,215,0,0.3);
+                }
+
+        .login-box .error {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+            .bg-shapes div {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255,215,0,0.03);
+                animation: moveShape 20s infinite alternate ease-in-out;
+            }
+
+        @@keyframes moveShape {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(100px, -100px) scale(1.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes">
+        <div style="width:300px;height:300px;top:10%;left:10%;animation-duration:25s;"></div>
+        <div style="width:200px;height:200px;bottom:20%;right:15%;animation-duration:30s;background:rgba(0,100,255,0.03);"></div>
+        <div style="width:400px;height:400px;top:50%;left:50%;animation-duration:20s;background:rgba(255,200,0,0.02);"></div>
+    </div>
+    <div class="login-box">
+        <h2>✨ Đăng nhập ✨</h2>
+        <form method="post">
+            <input type="text" name="username" placeholder="👤 Tên đăng nhập" required />
+            <input type="password" name="password" placeholder="🔒 Mật khẩu" required />
+            <button type="submit">🚀 Đăng nhập</button>
+            <div class="links">
+                <a href="/Account/Register">📝 Đăng ký</a>
+                <a href="/Account/ForgotPassword">❓ Quên mật khẩu</a>
+            </div>
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                <div class="error">❌ @ViewBag.Error</div>
+            }
+        </form>
+    </div>
+</body>
+</html>

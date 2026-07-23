@@ -1,0 +1,195 @@
+﻿@{
+    ViewData["Title"] = "Trang Admin";
+    Layout = null;
+    var orders = ViewBag.Orders as List<MyShop.Models.Order>;
+    var recharges = ViewBag.Recharges as List<MyShop.Models.Recharge>;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin Panel</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a1a, #1a0a2a, #2a1a3a);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            animation: bgPulse 8s ease-in-out infinite alternate;
+        }
+
+        @@keyframes bgPulse {
+            0% {
+                background: linear-gradient(135deg, #0a0a1a, #1a0a2a);
+            }
+
+            100% {
+                background: linear-gradient(135deg, #1a0a2a, #2a1a3a);
+            }
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,215,0,0.15);
+            box-shadow: 0 0 80px rgba(255,215,0,0.05);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,215,0,0.15);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+            .admin-header h2 {
+                color: #ffd700;
+                text-shadow: 0 0 40px rgba(255,215,0,0.2);
+            }
+
+            .admin-header a {
+                color: #ff6b6b;
+                text-decoration: none;
+                padding: 8px 20px;
+                border-radius: 20px;
+                border: 1px solid #ff6b6b;
+                transition: 0.3s;
+            }
+
+                .admin-header a:hover {
+                    background: #ff6b6b;
+                    color: white;
+                }
+
+        .section {
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+            .section h3 {
+                color: #ffd700;
+            }
+
+        .item {
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+            .item:hover {
+                background: rgba(255,215,0,0.05);
+                border-color: rgba(255,215,0,0.2);
+            }
+
+        .btn-approve {
+            background: #00b894;
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .btn-reject {
+            background: #ff6b6b;
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .btn-approve:hover, .btn-reject:hover {
+                transform: scale(1.05);
+            }
+
+        .empty {
+            color: #888;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h2>⚡ Admin Panel ⚡</h2>
+            <a href="/Account/Logout">🚪 Đăng xuất</a>
+        </div>
+
+        <div class="section">
+            <h3>📦 Đơn hàng chờ duyệt</h3>
+            @if (orders != null && orders.Any())
+            {
+                foreach (var o in orders)
+                {
+                    <div class="item">
+                        <span>👤 Tên: @(o.User != null ? o.User.Username : "Không xác định") | 🎮 ID game: @o.GameId | 💎 @o.DiamondAmount KC | 💰 @o.Price VND</span>
+                        <div>
+                            <form method="post" action="/Home/ApproveOrder" style="display:inline;">
+                                <input type="hidden" name="orderId" value="@o.Id" />
+                                <button type="submit" class="btn-approve">✅ Duyệt</button>
+                            </form>
+                            <form method="post" action="/Home/RejectOrder" style="display:inline;">
+                                <input type="hidden" name="orderId" value="@o.Id" />
+                                <button type="submit" class="btn-reject">❌ Từ chối</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty">📭 Không có đơn hàng nào đang chờ</div>
+            }
+        </div>
+
+        <div class="section">
+            <h3>💳 Nạp tiền chờ duyệt</h3>
+            @if (recharges != null && recharges.Any())
+            {
+                foreach (var r in recharges)
+                {
+                    <div class="item">
+                        <span>👤 Tên: @(r.User != null ? r.User.Username : "Không xác định") | 💰 @r.Amount VND | 💎 @r.DiamondReceived KC</span>
+                        <div>
+                            <form method="post" action="/Home/ApproveRecharge" style="display:inline;">
+                                <input type="hidden" name="rechargeId" value="@r.Id" />
+                                <button type="submit" class="btn-approve">✅ Duyệt</button>
+                            </form>
+                            <form method="post" action="/Home/RejectRecharge" style="display:inline;">
+                                <input type="hidden" name="rechargeId" value="@r.Id" />
+                                <button type="submit" class="btn-reject">❌ Từ chối</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty">📭 Không có yêu cầu nạp tiền nào đang chờ</div>
+            }
+        </div>
+    </div>
+</body>
+</html>

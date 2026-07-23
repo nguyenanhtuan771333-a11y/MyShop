@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Đăng ký";
+}
+<h2>Đăng ký</h2>
+<form method="post">
+    <input type="text" name="username" placeholder="Tên đăng nhập" required /><br />
+    <input type="password" name="password" placeholder="Mật khẩu" required /><br />
+    <input type="password" name="confirm" placeholder="Xác nhận mật khẩu" required /><br />
+    <button type="submit">Đăng ký</button>
+    <div style="color:red">@ViewBag.Error</div>
+</form>
