@@ -3,8 +3,8 @@ using MyShop.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseSqlite("Data Source=MyShop.db"));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=MyShop.db"));
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(opt => opt.IdleTimeout = TimeSpan.FromMinutes(30));
 
