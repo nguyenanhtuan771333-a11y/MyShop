@@ -449,11 +449,14 @@
                 <div class="form-group">
                     <label>Chọn gói kim cương:</label>
                     <select id="diamondSelect" name="diamondAmount" onchange="updatePrice()" required>
-                        <option value="113">113 KC - 20.000 VND</option>
-                        <option value="283">283 KC - 50.000 VND</option>
-                        <option value="556">556 KC - 97.000 VND</option>
-                        <option value="1132">1.132 KC - 193.000 VND</option>
-                        <option value="2830">2.830 KC - 485.000 VND</option>
+                        <option value="283" data-price="48000">283 KC - 48.000 VND (Tuần)</option>
+                        <option value="1132" data-price="215000">1.132 KC - 215.000 VND (Tháng)</option>
+                        <option value="283" data-price="53000">283 KC - 53.000 VND (Booyah)</option>
+                        <option value="113" data-price="20000">113 KC - 20.000 VND</option>
+                        <option value="283" data-price="50000">283 KC - 50.000 VND</option>
+                        <option value="556" data-price="97000">556 KC - 97.000 VND</option>
+                        <option value="1132" data-price="193000">1.132 KC - 193.000 VND</option>
+                        <option value="2830" data-price="485000">2.830 KC - 485.000 VND</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -501,24 +504,19 @@
     </div>
 
     <script>
-        const priceMap = {
-            113: 20000,
-            283: 50000,
-            556: 97000,
-            1132: 193000,
-            2830: 485000
-        };
-
         function updatePrice() {
             const select = document.getElementById('diamondSelect');
-            const price = priceMap[parseInt(select.value)] || 0;
+            const selectedOption = select.options[select.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
             document.getElementById('priceInput').value = price;
         }
         updatePrice();
 
         function openModalFromOrder() {
-            const diamond = parseInt(document.getElementById('diamondSelect').value);
-            const price = parseInt(document.getElementById('priceInput').value);
+            const select = document.getElementById('diamondSelect');
+            const selectedOption = select.options[select.selectedIndex];
+            const diamond = parseInt(selectedOption.value);
+            const price = parseInt(selectedOption.getAttribute('data-price'));
             if (!price || price <= 0) {
                 alert('Vui lòng chọn gói kim cương hợp lệ.');
                 return;
