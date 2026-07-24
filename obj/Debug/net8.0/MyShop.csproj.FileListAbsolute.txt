@@ -157,10 +157,11 @@ D:\MyShop\obj\Debug\net8.0\staticwebassets.build.json
 D:\MyShop\obj\Debug\net8.0\staticwebassets.build.json.cache
 D:\MyShop\obj\Debug\net8.0\staticwebassets.development.json
 D:\MyShop\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-D:\MyShop\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\MyShop\obj\Debug\net8.0\MyShop.csproj.Up2Date
 D:\MyShop\obj\Debug\net8.0\MyShop.dll
 D:\MyShop\obj\Debug\net8.0\refint\MyShop.dll
 D:\MyShop\obj\Debug\net8.0\MyShop.pdb
 D:\MyShop\obj\Debug\net8.0\MyShop.genruntimeconfig.cache
 D:\MyShop\obj\Debug\net8.0\ref\MyShop.dll
+D:\MyShop\bin\Debug\net8.0\Npgsql.dll
+D:\MyShop\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
