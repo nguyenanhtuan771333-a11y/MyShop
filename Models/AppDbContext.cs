@@ -8,6 +8,7 @@ namespace MyShop.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Recharge> Recharges { get; set; }
+        public DbSet<SpinHistory> SpinHistories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -17,7 +18,9 @@ namespace MyShop.Models
                 Username = "admin3011",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("My07082010"),
                 Role = "Admin",
-                DiamondBalance = 0
+                DiamondBalance = 0,
+                TotalRechargeCount = 0,
+                CanSpin = false
             });
         }
     }
@@ -30,6 +33,8 @@ namespace MyShop.Models
         public string Role { get; set; }
         public int DiamondBalance { get; set; }
         public string? ResetToken { get; set; }
+        public int TotalRechargeCount { get; set; }
+        public bool CanSpin { get; set; }
     }
 
     public class Order
@@ -50,6 +55,15 @@ namespace MyShop.Models
         public decimal Amount { get; set; }
         public int DiamondReceived { get; set; }
         public string Status { get; set; }
+        public User User { get; set; }
+    }
+
+    public class SpinHistory
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public string Prize { get; set; }
+        public DateTime SpinDate { get; set; }
         public User User { get; set; }
     }
 }

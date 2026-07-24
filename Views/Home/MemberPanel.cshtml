@@ -371,6 +371,34 @@
             .order-note strong {
                 color: #dc3545;
             }
+
+        .spin-btn {
+            background: linear-gradient(135deg, #ff6b6b, #f7931e);
+            border: none;
+            color: white;
+            padding: 12px 35px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            animation: blinkSpin 1.2s infinite alternate;
+        }
+
+        @@keyframes blinkSpin {
+            0% {
+                background: linear-gradient(135deg, #ff6b6b, #f7931e);
+                box-shadow: 0 0 15px rgba(255,107,107,0.4);
+            }
+
+            100% {
+                background: linear-gradient(135deg, #ff0000, #ff6600);
+                box-shadow: 0 0 35px rgba(255,0,0,0.7);
+            }
+        }
+
+        .spin-btn:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -432,6 +460,8 @@
         <div class="panel">
             <h3>📊 Bảng giá kim cương</h3>
             <div class="price-grid">
+                <div class="price-item"><div class="amount">5.000 VND</div><div class="diamond">💎 25 KC</div></div>
+                <div class="price-item"><div class="amount">10.000 VND</div><div class="diamond">💎 51 KC</div></div>
                 <div class="price-item"><div class="amount">48.000 VND (Tuần)</div><div class="diamond">💎 283 KC</div></div>
                 <div class="price-item"><div class="amount">215.000 VND (Tháng)</div><div class="diamond">💎 1.132 KC</div></div>
                 <div class="price-item"><div class="amount">53.000 VND (Booyah)</div><div class="diamond">💎 283 KC</div></div>
@@ -449,6 +479,8 @@
                 <div class="form-group">
                     <label>Chọn gói kim cương:</label>
                     <select id="diamondSelect" name="diamondAmount" onchange="updatePrice()" required>
+                        <option value="25" data-price="5000">25 KC - 5.000 VND</option>
+                        <option value="51" data-price="10000">51 KC - 10.000 VND</option>
                         <option value="283" data-price="48000">283 KC - 48.000 VND (Tuần)</option>
                         <option value="1132" data-price="215000">1.132 KC - 215.000 VND (Tháng)</option>
                         <option value="283" data-price="53000">283 KC - 53.000 VND (Booyah)</option>
@@ -496,6 +528,21 @@
                     <tr><td colspan="4" style="text-align:center;color:#888;">Chưa có đơn hàng nào</td></tr>
                 }
             </table>
+        </div>
+
+        <!-- VÒNG QUAY MAY MẮN -->
+        <div class="panel">
+            <h3>🎡 Vòng quay may mắn</h3>
+            @if (user.CanSpin)
+            {
+                <p>Bạn có <strong>1 lượt quay</strong>!</p>
+                <button class="spin-btn" onclick="spinWheel()">🎰 Quay ngay</button>
+            }
+            else
+            {
+                <p>Bạn chưa có lượt quay. Hãy đứng đầu top nạp để nhận lượt quay!</p>
+            }
+            <div id="spinResult" style="margin-top:15px; font-size:1.5em; color:#ffd700;"></div>
         </div>
 
         <div class="panel" style="text-align:center;">
@@ -581,6 +628,21 @@
                 document.querySelector('.music-player button').textContent = '⏸️';
             }
         }, { once: true });
+
+        // VÒNG QUAY MAY MẮN
+        function spinWheel() {
+            fetch('/Home/SpinWheel', { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('spinResult').innerHTML = '🎉 Bạn nhận được: <strong>' + data.prize + '</strong>! Số dư: ' + data.balance;
+                    location.reload();
+                }
+            })
+            .catch(() => alert('Lỗi quay!'));
+        }
     </script>
 
 </body>

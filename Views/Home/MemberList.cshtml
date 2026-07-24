@@ -1,0 +1,76 @@
+﻿@model List<MyShop.Models.User>
+@{
+    ViewData["Title"] = "Quản lý Member";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quản lý Member</title>
+    <style>
+        body {
+            background: #0a0a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #333;
+            text-align: left;
+        }
+
+        th {
+            background: #1a1a3a;
+            color: #ffd700;
+        }
+
+        .btn-delete {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .btn-delete:hover {
+                background: #ff0000;
+            }
+
+        .back {
+            color: #ffd700;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>📋 Quản lý Member</h2>
+    <a href="/Home/AdminPanel" class="back">⬅ Quay lại Admin Panel</a>
+    <table>
+        <tr><th>ID</th><th>Tên</th><th>Số lần nạp</th><th>Kim cương</th><th>Lượt quay</th><th>Hành động</th></tr>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.Id</td>
+                <td>@u.Username</td>
+                <td>@u.TotalRechargeCount</td>
+                <td>@u.DiamondBalance</td>
+                <td>@(u.CanSpin ? "✅ Có" : "❌ Không")</td>
+                <td>
+                    <form method="post" action="/Home/DeleteMember" onsubmit="return confirm('Xóa tài khoản này?')">
+                        <input type="hidden" name="id" value="@u.Id" />
+                        <button class="btn-delete">🗑 Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+</body>
+</html>

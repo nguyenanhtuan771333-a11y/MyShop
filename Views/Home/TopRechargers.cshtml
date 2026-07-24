@@ -1,0 +1,69 @@
+﻿@model List<MyShop.Models.User>
+@{
+    ViewData["Title"] = "Top Nạp";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Top Nạp</title>
+    <style>
+        body {
+            background: #0a0a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #333;
+            text-align: left;
+        }
+
+        th {
+            background: #1a1a3a;
+            color: #ffd700;
+        }
+
+        .gold {
+            color: #ffd700;
+        }
+
+        .silver {
+            color: #c0c0c0;
+        }
+
+        .bronze {
+            color: #cd7f32;
+        }
+
+        .back {
+            color: #ffd700;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>🏆 Top Nạp (10 member)</h2>
+    <a href="/Home/AdminPanel" class="back">⬅ Quay lại Admin Panel</a>
+    <table>
+        <tr><th>#</th><th>Tên</th><th>Số lần nạp</th><th>Kim cương</th></tr>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var rankClass = i == 0 ? "gold" : (i == 1 ? "silver" : (i == 2 ? "bronze" : ""));
+            <tr>
+                <td class="@rankClass">@(i + 1)</td>
+                <td>@Model[i].Username</td>
+                <td>@Model[i].TotalRechargeCount</td>
+                <td>@Model[i].DiamondBalance</td>
+            </tr>
+        }
+    </table>
+</body>
+</html>

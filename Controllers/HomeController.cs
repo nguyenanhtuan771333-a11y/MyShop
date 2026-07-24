@@ -124,7 +124,19 @@ namespace MyShop.Controllers
             {
                 recharge.Status = "Thành công";
                 var user = _db.Users.Find(recharge.UserId);
-                if (user != null) user.DiamondBalance += recharge.DiamondReceived;
+                if (user != null)
+                {
+                    user.DiamondBalance += recharge.DiamondReceived;
+                    user.TotalRechargeCount += 1;
+                    // Top nạp: member đứng đầu được quay
+                    var top = _db.Users.Where(u => u.Role == "Member")
+                                       .OrderByDescending(u => u.TotalRechargeCount)
+                                       .FirstOrDefault();
+                    if (top != null)
+                    {
+                        top.CanSpin = true;
+                    }
+                }
                 _db.SaveChanges();
             }
             return RedirectToAction("AdminPanel");
@@ -140,6 +152,75 @@ namespace MyShop.Controllers
                 _db.SaveChanges();
             }
             return RedirectToAction("AdminPanel");
+        }
+
+        // QUẢN LÝ MEMBER
+        public IActionResult MemberList()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return RedirectToAction("Login", "Account");
+            var admin = _db.Users.Find(userId.Value);
+            if (admin == null || admin.Role != "Admin") return RedirectToAction("Index");
+
+            var members = _db.Users.Where(u => u.Role == "Member").ToList();
+            return View(members);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteMember(int id)
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return RedirectToAction("Login", "Account");
+            var admin = _db.Users.Find(userId.Value);
+            if (admin == null || admin.Role != "Admin") return RedirectToAction("Index");
+
+            var user = _db.Users.Find(id);
+            if (user != null && user.Role == "Member")
+            {
+                _db.Users.Remove(user);
+                _db.SaveChanges();
+            }
+            return RedirectToAction("MemberList");
+        }
+
+        // TOP NẠP
+        public IActionResult TopRechargers()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return RedirectToAction("Login", "Account");
+            var admin = _db.Users.Find(userId.Value);
+            if (admin == null || admin.Role != "Admin") return RedirectToAction("Index");
+
+            var top = _db.Users.Where(u => u.Role == "Member")
+                               .OrderByDescending(u => u.TotalRechargeCount)
+                               .Take(10)
+                               .ToList();
+            return View(top);
+        }
+
+        // VÒNG QUAY MAY MẮN
+        [HttpPost]
+        public IActionResult SpinWheel()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return Json(new { error = "Chưa đăng nhập" });
+            var user = _db.Users.Find(userId.Value);
+            if (user == null || !user.CanSpin) return Json(new { error = "Không có lượt quay" });
+
+            var prizes = new[] { "10 KC", "20 KC", "50 KC", "100 KC", "200 KC", "500 KC", "Chúc may mắn lần sau!" };
+            var prize = prizes[new Random().Next(prizes.Length)];
+
+            user.CanSpin = false;
+            if (int.TryParse(prize.Split(' ')[0], out int kc))
+            {
+                user.DiamondBalance += kc;
+            }
+
+            var history = new SpinHistory { UserId = user.Id, Prize = prize, SpinDate = DateTime.Now };
+            _db.SpinHistories.Add(history);
+            _db.SaveChanges();
+
+            return Json(new { prize = prize, balance = user.DiamondBalance });
         }
     }
 }
