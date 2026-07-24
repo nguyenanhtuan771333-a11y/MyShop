@@ -8,79 +8,191 @@
     <meta charset="utf-8" />
     <title>Đăng nhập</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: url('/images/login_bg.jpg') no-repeat center center fixed;
-            background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            overflow: hidden;
+            position: relative;
         }
-
-        .login-box {
-            background: rgba(255,255,255,0.95);
-            padding: 40px 35px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        /* NỀN NEON CẦU VÒNG CHẠY */
+        .rainbow-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 400px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.3);
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff, #ff0000);
+            background-size: 400% 400%;
+            animation: rainbowMove 8s ease infinite;
+            filter: blur(60px);
+            opacity: 0.9;
         }
 
-            .login-box h2 {
-                color: #1a1a2e;
-                text-align: center;
-                margin-bottom: 25px;
-                font-size: 2em;
-                font-weight: 700;
-            }
-
-            .login-box input {
-                width: 100%;
-                padding: 14px 16px;
-                margin: 10px 0;
-                border-radius: 12px;
-                border: 1px solid #ddd;
-                background: #f8f9fa;
-                color: #1a1a2e;
-                font-size: 1em;
-                box-sizing: border-box;
-                transition: 0.3s;
-            }
-
-                .login-box input:focus {
-                    outline: none;
-                    border-color: #007bff;
-                    box-shadow: 0 0 0 3px rgba(0,123,255,0.2);
-                }
-
-            .login-box button {
-                width: 100%;
-                padding: 14px;
-                border-radius: 12px;
-                border: none;
-                color: white;
-                font-size: 1.2em;
-                font-weight: bold;
-                cursor: pointer;
-                transition: 0.3s;
-                animation: blinkLogin 1.2s infinite alternate;
-                background: #007bff;
-            }
-
-        @@keyframes blinkLogin {
+        @@keyframes rainbowMove {
             0% {
-                background: #007bff;
-                box-shadow: 0 0 10px rgba(0,123,255,0.3);
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
             }
 
             100% {
-                background: #0056b3;
-                box-shadow: 0 0 25px rgba(0,123,255,0.7);
+                background-position: 0% 50%;
+            }
+        }
+        /* VIỀN NEON CHẠY QUANH MÀN HÌNH */
+        .neon-border {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            z-index: 1;
+            border: 3px solid transparent;
+            border-radius: 25px;
+            animation: borderGlow 3s ease-in-out infinite;
+            pointer-events: none;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2), inset 0 0 30px rgba(0, 255, 255, 0.05);
+        }
+
+            .neon-border::before {
+                content: '';
+                position: absolute;
+                top: -3px;
+                left: -3px;
+                right: -3px;
+                bottom: -3px;
+                border-radius: 28px;
+                background: conic-gradient(from 0deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff, #ff0000);
+                background-size: 200% 200%;
+                animation: borderSpin 4s linear infinite;
+                z-index: -1;
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask-composite: exclude;
+                -webkit-mask-composite: xor;
+                padding: 4px;
+            }
+
+        @@keyframes borderSpin {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+        @@keyframes borderGlow {
+            0% {
+                box-shadow: 0 0 40px rgba(255,0,255,0.2), 0 0 80px rgba(0,255,255,0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 60px rgba(255,0,255,0.4), 0 0 120px rgba(0,255,255,0.2);
+            }
+
+            100% {
+                box-shadow: 0 0 40px rgba(255,0,255,0.2), 0 0 80px rgba(0,255,255,0.1);
+            }
+        }
+        /* Ô ĐĂNG NHẬP */
+        .login-box {
+            position: relative;
+            z-index: 2;
+            background: rgba(10, 10, 20, 0.85);
+            backdrop-filter: blur(20px);
+            padding: 40px 35px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.15), 0 0 100px rgba(255, 0, 255, 0.05);
+            width: 100%;
+            max-width: 400px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @@keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .login-box h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(255, 0, 255, 0.2);
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 14px 16px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+            .login-box input:focus {
+                outline: none;
+                border-color: #00ffff;
+                box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+            }
+
+            .login-box input::placeholder {
+                color: rgba(255,255,255,0.5);
+            }
+
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            animation: blinkNeon 1.2s infinite alternate;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            text-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        @@keyframes blinkNeon {
+            0% {
+                background: linear-gradient(135deg, #ff00ff, #00ffff);
+                box-shadow: 0 0 20px rgba(255,0,255,0.4);
+            }
+
+            100% {
+                background: linear-gradient(135deg, #ff0080, #00ffcc);
+                box-shadow: 0 0 40px rgba(0,255,255,0.7);
             }
         }
 
@@ -92,45 +204,85 @@
             display: flex;
             justify-content: space-between;
             margin: 18px 0 10px 0;
-            color: #333;
+            color: rgba(255,255,255,0.7);
         }
 
             .login-box .links a {
-                color: #007bff;
+                color: #00ffff;
                 text-decoration: none;
                 font-size: 0.95em;
                 transition: 0.3s;
+                text-shadow: 0 0 10px rgba(0,255,255,0.2);
             }
 
                 .login-box .links a:hover {
-                    text-decoration: underline;
+                    text-shadow: 0 0 25px rgba(0,255,255,0.6);
                 }
 
         .login-box .error {
-            color: #dc3545;
+            color: #ff6b6b;
             text-align: center;
             margin-top: 12px;
             font-weight: 500;
         }
 
         .login-box .note {
-            color: #555;
+            color: rgba(255,255,255,0.6);
             font-size: 0.85em;
             text-align: center;
             margin-top: 18px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 15px;
-            background: #f8f9fa;
+            background: rgba(255,255,255,0.03);
             border-radius: 8px;
             padding: 12px;
         }
 
             .login-box .note strong {
-                color: #dc3545;
+                color: #ff6b6b;
             }
+        /* THÊM HẠT NEON */
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            z-index: 0;
+            animation: particleFloat linear infinite;
+            pointer-events: none;
+        }
+
+        @@keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
+
+    <!-- NỀN NEON CẦU VÒNG -->
+    <div class="rainbow-bg"></div>
+
+    <!-- VIỀN NEON CHẠY -->
+    <div class="neon-border"></div>
+
+    <!-- HẠT NEON RƠI -->
+    <div id="particles"></div>
+
     <div class="login-box">
         <h2>🔐 Đăng nhập</h2>
         <form method="post">
@@ -150,5 +302,27 @@
             </div>
         </form>
     </div>
+
+    <script>
+        // TẠO HẠT NEON
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                let el = document.createElement('div');
+                el.className = 'particle';
+                const size = Math.random() * 8 + 2;
+                el.style.width = size + 'px';
+                el.style.height = size + 'px';
+                el.style.left = Math.random() * 100 + '%';
+                el.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                el.style.animationDelay = (Math.random() * 15) + 's';
+                el.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                el.style.boxShadow = `0 0 ${size * 2}px ${el.style.background}`;
+                container.appendChild(el);
+            }
+        }
+        createParticles();
+    </script>
+
 </body>
 </html>
