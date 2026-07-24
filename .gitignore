@@ -3,4 +3,7 @@ echo bin/ >> .gitignore
   echo .vs/ >> .gitignore
   echo MyShop.db >> .gitignore
   echo MyShop.db-shm >> .gitignore
-  echo MyShop.db-wal >> .gitignore
+  echo MyShop.db-wal >> .gitignore.vs/ 
+bin/ 
+obj/ 
+MyShop.db* 
