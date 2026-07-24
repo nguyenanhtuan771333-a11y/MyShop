@@ -13,7 +13,7 @@
         body {
             background: url('/images/member_bg.jpg') no-repeat center center fixed;
             background-size: cover;
-            color: white;
+            color: #1a1a2e;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
@@ -29,18 +29,18 @@
             z-index: 9999;
             animation: fall linear infinite;
             pointer-events: none;
-            opacity: 0.8;
+            opacity: 0.6;
         }
 
         @@keyframes fall {
             0% {
                 transform: translateY(0) rotate(0deg);
-                opacity: 0.8;
+                opacity: 0.6;
             }
 
             100% {
                 transform: translateY(110vh) rotate(720deg);
-                opacity: 0.2;
+                opacity: 0.1;
             }
         }
 
@@ -56,18 +56,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.85);
             padding: 15px 30px;
             border-radius: 15px;
             margin-bottom: 30px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid #ddd;
         }
 
             .header h2 {
                 margin: 0;
-                color: #ffd700;
-                text-shadow: 0 0 20px rgba(255,215,0,0.3);
+                color: #1a1a2e;
             }
 
         .header-right {
@@ -77,9 +75,9 @@
         }
 
         .btn-logout {
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
+            background: rgba(0,0,0,0.05);
+            border: 1px solid #ccc;
+            color: #1a1a2e;
             padding: 8px 20px;
             border-radius: 20px;
             text-decoration: none;
@@ -87,22 +85,23 @@
         }
 
             .btn-logout:hover {
-                background: rgba(255,0,0,0.3);
+                background: rgba(0,0,0,0.1);
             }
 
         .panel {
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: none;
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid #ddd;
+            color: #1a1a2e;
         }
 
             .panel h3 {
-                color: #ffd700;
+                color: #1a1a2e;
                 margin-top: 0;
-                border-bottom: 1px solid rgba(255,215,0,0.2);
+                border-bottom: 1px solid #ddd;
                 padding-bottom: 10px;
             }
 
@@ -114,27 +113,27 @@
         }
 
         .price-item {
-            background: rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.03);
             padding: 15px;
             border-radius: 10px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid #e0e0e0;
             transition: 0.3s;
         }
 
             .price-item:hover {
-                background: rgba(255,215,0,0.1);
-                border-color: #ffd700;
+                background: rgba(0,0,0,0.06);
+                border-color: #007bff;
             }
 
             .price-item .amount {
                 font-size: 1.3em;
                 font-weight: bold;
-                color: #ffd700;
+                color: #007bff;
             }
 
             .price-item .diamond {
-                color: #aaa;
+                color: #555;
                 font-size: 0.9em;
             }
 
@@ -145,7 +144,7 @@
             .form-group label {
                 display: block;
                 margin-bottom: 5px;
-                color: #ccc;
+                color: #333;
             }
 
             .form-group input, .form-group select {
@@ -153,21 +152,21 @@
                 max-width: 400px;
                 padding: 10px 15px;
                 border-radius: 10px;
-                border: 1px solid rgba(255,255,255,0.2);
-                background: rgba(255,255,255,0.05);
-                color: white;
+                border: 1px solid #ccc;
+                background: #fff;
+                color: #1a1a2e;
                 font-size: 1em;
                 transition: 0.3s;
             }
 
                 .form-group input:focus, .form-group select:focus {
                     outline: none;
-                    border-color: #ffd700;
-                    box-shadow: 0 0 20px rgba(255,215,0,0.15);
+                    border-color: #007bff;
+                    box-shadow: 0 0 0 3px rgba(0,123,255,0.2);
                 }
 
                 .form-group select option {
-                    background: #0b1a3a;
+                    background: #fff;
                 }
 
         .btn-submit {
@@ -179,12 +178,24 @@
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
+            animation: blinkOrder 1.5s infinite alternate;
         }
 
-            .btn-submit:hover {
-                transform: scale(1.05);
-                box-shadow: 0 4px 20px rgba(0,184,148,0.4);
+        @@keyframes blinkOrder {
+            0% {
+                background: linear-gradient(135deg, #00b894, #00a3ff);
+                box-shadow: 0 0 10px rgba(0,184,148,0.3);
             }
+
+            100% {
+                background: linear-gradient(135deg, #007bff, #0056b3);
+                box-shadow: 0 0 25px rgba(0,123,255,0.6);
+            }
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.05);
+        }
 
         table {
             width: 100%;
@@ -195,24 +206,24 @@
         th, td {
             padding: 12px 15px;
             text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid #ddd;
         }
 
         th {
-            color: #ffd700;
-            font-weight: normal;
+            color: #1a1a2e;
+            font-weight: 600;
         }
 
         .status-success {
-            color: #00d2ff;
+            color: #00b894;
         }
 
         .status-fail {
-            color: #ff6b6b;
+            color: #dc3545;
         }
 
         .status-pending {
-            color: #ffd93d;
+            color: #ffc107;
         }
 
         .modal {
@@ -284,6 +295,7 @@
             border-radius: 20px;
             cursor: pointer;
             margin: 5px;
+            transition: 0.3s;
         }
 
         .modal-confirm {
@@ -294,14 +306,28 @@
             border-radius: 20px;
             cursor: pointer;
             margin: 5px;
+            transition: 0.3s;
+            animation: blinkConfirm 1.2s infinite alternate;
         }
 
-            .modal-close:hover, .modal-confirm:hover {
-                transform: scale(1.05);
+        @@keyframes blinkConfirm {
+            0% {
+                background: #00b894;
+                box-shadow: 0 0 10px rgba(0,184,148,0.3);
             }
 
+            100% {
+                background: #00856a;
+                box-shadow: 0 0 25px rgba(0,184,148,0.6);
+            }
+        }
+
+        .modal-close:hover, .modal-confirm:hover {
+            transform: scale(1.05);
+        }
+
         .contact-link {
-            color: #ffd700;
+            color: #007bff;
             text-decoration: underline;
             cursor: pointer;
         }
@@ -311,12 +337,12 @@
             bottom: 20px;
             right: 20px;
             z-index: 1000;
-            background: rgba(0,0,0,0.5);
+            background: rgba(255,255,255,0.85);
             padding: 10px 15px;
             border-radius: 30px;
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,215,0,0.2);
-            color: white;
+            border: 1px solid #ddd;
+            color: #1a1a2e;
             font-size: 0.9em;
             display: flex;
             align-items: center;
@@ -326,24 +352,24 @@
             .music-player button {
                 background: none;
                 border: none;
-                color: #ffd700;
+                color: #007bff;
                 font-size: 1.5em;
                 cursor: pointer;
             }
 
         .order-note {
-            color: #ffd93d;
+            color: #333;
             font-size: 0.95em;
             margin-top: 12px;
             padding: 12px;
-            background: rgba(255,215,0,0.1);
+            background: rgba(0,0,0,0.05);
             border-radius: 10px;
-            border: 1px solid rgba(255,215,0,0.2);
+            border: 1px solid #ccc;
             text-align: center;
         }
 
             .order-note strong {
-                color: #fff;
+                color: #dc3545;
             }
     </style>
 </head>
@@ -470,7 +496,7 @@
         </div>
 
         <div class="panel" style="text-align:center;">
-            <p>📞 Gặp vấn đề? Liên hệ ngay: <a href="https://zalo.me/0123456789" target="_blank" class="contact-link">Zalo</a> | <a href="mailto:support@myshop.com" class="contact-link">Email</a> | <a href="https://facebook.com/myshop" target="_blank" class="contact-link">Facebook</a></p>
+            <p>📞 Gặp vấn đề? Liên hệ ngay: <a href="https://zalo.me/0123456789" target="_blank" class="contact-link">Zalo</a> | <a href="mailto:support@myshop.com" class="contact-link">Email</a> | <a href="https://www.facebook.com/nguyentuan.209447" target="_blank" class="contact-link">Facebook</a></p>
         </div>
     </div>
 
