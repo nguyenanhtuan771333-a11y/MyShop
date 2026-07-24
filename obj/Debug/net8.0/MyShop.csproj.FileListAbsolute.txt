@@ -163,5 +163,3 @@ D:\MyShop\obj\Debug\net8.0\refint\MyShop.dll
 D:\MyShop\obj\Debug\net8.0\MyShop.pdb
 D:\MyShop\obj\Debug\net8.0\MyShop.genruntimeconfig.cache
 D:\MyShop\obj\Debug\net8.0\ref\MyShop.dll
-D:\MyShop\bin\Debug\net8.0\Npgsql.dll
-D:\MyShop\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

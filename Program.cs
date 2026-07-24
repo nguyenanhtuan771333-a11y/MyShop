@@ -1,13 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.DataProtection;
 using MyShop.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo("/tmp/keys"));
+    options.UseSqlite("Data Source=MyShop.db"));
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(opt => opt.IdleTimeout = TimeSpan.FromMinutes(30));
 
