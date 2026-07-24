@@ -11,7 +11,8 @@
     <title>Member Panel</title>
     <style>
         body {
-            background: linear-gradient(135deg, #0b1a3a, #1a3a6a);
+            background: url('/images/member_bg.jpg') no-repeat center center fixed;
+            background-size: cover;
             color: white;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -329,6 +330,21 @@
                 font-size: 1.5em;
                 cursor: pointer;
             }
+
+        .order-note {
+            color: #ffd93d;
+            font-size: 0.95em;
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255,215,0,0.2);
+            text-align: center;
+        }
+
+            .order-note strong {
+                color: #fff;
+            }
     </style>
 </head>
 <body>
@@ -390,14 +406,14 @@
         <div class="panel">
             <h3>📊 Bảng giá kim cương</h3>
             <div class="price-grid">
+                <div class="price-item"><div class="amount">48.000 VND (Tuần)</div><div class="diamond">💎 283 KC</div></div>
+                <div class="price-item"><div class="amount">215.000 VND (Tháng)</div><div class="diamond">💎 1.132 KC</div></div>
+                <div class="price-item"><div class="amount">53.000 VND (Booyah)</div><div class="diamond">💎 283 KC</div></div>
                 <div class="price-item"><div class="amount">20.000 VND</div><div class="diamond">💎 113 KC</div></div>
                 <div class="price-item"><div class="amount">50.000 VND</div><div class="diamond">💎 283 KC</div></div>
                 <div class="price-item"><div class="amount">97.000 VND</div><div class="diamond">💎 556 KC</div></div>
                 <div class="price-item"><div class="amount">193.000 VND</div><div class="diamond">💎 1.132 KC</div></div>
                 <div class="price-item"><div class="amount">485.000 VND</div><div class="diamond">💎 2.830 KC</div></div>
-                <div class="price-item"><div class="amount">48.000 VND (Tuần)</div><div class="diamond">💎 283 KC</div></div>
-                <div class="price-item"><div class="amount">215.000 VND (Tháng)</div><div class="diamond">💎 1.132 KC</div></div>
-                <div class="price-item"><div class="amount">53.000 VND (Booyah)</div><div class="diamond">💎 283 KC</div></div>
             </div>
         </div>
 
@@ -424,6 +440,9 @@
                 </div>
                 <button type="button" class="btn-submit" onclick="openModalFromOrder()">📦 Tạo đơn hàng</button>
             </form>
+            <div class="order-note">
+                ⚠️ Lưu ý: Sau khi ấn <strong>"Tạo đơn hàng"</strong>, hãy <strong>F5 (refresh)</strong> lại trang để cập nhật tình hình đơn hàng. Thường mất 1-3 phút để admin xử lý.
+            </div>
         </div>
 
         <div class="panel">
@@ -451,7 +470,7 @@
         </div>
 
         <div class="panel" style="text-align:center;">
-            <p>📞 Gặp vấn đề? Liên hệ ngay: <a href="https://zalo.me/0123456789" target="_blank" class="contact-link">Zalo</a> | <a href="mailto:support@myshop.com" class="contact-link">Email</a> | <a href="https://www.facebook.com/nguyentuan.209447" target="_blank" class="contact-link">Facebook</a></p>
+            <p>📞 Gặp vấn đề? Liên hệ ngay: <a href="https://zalo.me/0123456789" target="_blank" class="contact-link">Zalo</a> | <a href="mailto:support@myshop.com" class="contact-link">Email</a> | <a href="https://facebook.com/myshop" target="_blank" class="contact-link">Facebook</a></p>
         </div>
     </div>
 
